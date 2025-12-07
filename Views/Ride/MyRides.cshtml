@@ -1,0 +1,71 @@
+@{
+    ViewBag.Title = "Driver Dashboard";
+    var pendingRides = ViewBag.PendingRides as List<Ride>;
+    var myRides = Model as List<Ride>;
+}
+
+<h2>Driver Dashboard</h2>
+
+<h3>Pending Rides</h3>
+<table>
+    <tr>
+        <th>RideId</th>
+        <th>User</th>
+        <th>Pickup</th>
+        <th>Drop</th>
+        <th></th>
+    </tr>
+    @foreach (var r in pendingRides)
+    {
+        <tr>
+            <td>@r.RideId</td>
+            <td>@r.UserId</td>
+            <td>@r.PickupLocation</td>
+            <td>@r.DropLocation</td>
+            <td>
+                <form asp-action="AcceptRide" method="post">
+                    <input type="hidden" name="rideId" value="@r.RideId" />
+                    <button type="submit">Accept</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>My Rides</h3>
+<table>
+    <tr>
+        <th>RideId</th>
+        <th>Pickup</th>
+        <th>Drop</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var r in myRides)
+    {
+        <tr>
+            <td>@r.RideId</td>
+            <td>@r.PickupLocation</td>
+            <td>@r.DropLocation</td>
+            <td>@r.Status</td>
+            <td>
+                @if (r.Status == "Accepted")
+                {
+                    <form asp-action="UpdateStatus" method="post">
+                        <input type="hidden" name="rideId" value="@r.RideId" />
+                        <input type="hidden" name="status" value="InProgress" />
+                        <button type="submit">Start Ride</button>
+                    </form>
+                }
+                else if (r.Status == "InProgress")
+                {
+                    <form asp-action="UpdateStatus" method="post">
+                        <input type="hidden" name="rideId" value="@r.RideId" />
+                        <input type="hidden" name="status" value="Completed" />
+                        <button type="submit">Complete Ride</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+</table>

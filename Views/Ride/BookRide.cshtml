@@ -1,0 +1,22 @@
+@{
+    ViewBag.Title = "Book Ride";
+}
+
+<h2>Book a Ride</h2>
+
+@if (ViewBag.Error != null)
+{
+    <p style="color:red">@ViewBag.Error</p>
+}
+
+<form asp-action="BookRide" method="post">
+    <div>
+        <label>Pickup Location</label>
+        <input name="pickupLocation" />
+    </div>
+    <div>
+        <label>Drop Location</label>
+        <input name="dropLocation" />
+    </div>
+    <button type="submit">Book Ride</button>
+</form>
